@@ -24,12 +24,9 @@ export default function About() {
 
             <div className="relative z-10 mx-auto max-w-4xl">
                 <AnimateOnScroll>
-                    <h2 className="mb-3 font-mono text-sm tracking-widest text-accent">
+                    <h2 className="mb-12 text-3xl font-bold text-foreground sm:text-4xl">
                         About Me
                     </h2>
-                    <h3 className="mb-12 text-3xl font-bold text-foreground sm:text-4xl">
-                        Who I Am
-                    </h3>
                 </AnimateOnScroll>
 
                 <div className="grid gap-12 lg:grid-cols-5">
