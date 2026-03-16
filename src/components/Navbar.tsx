@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle";
-
-const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-];
+import { useLanguage } from "@/i18n";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const { locale, t, toggleLanguage } = useLanguage();
+
+    const navLinks = [
+        { label: t.nav.about, href: "#about" },
+        { label: t.nav.experience, href: "#experience" },
+        { label: t.nav.projects, href: "#projects" },
+        { label: t.nav.contact, href: "#contact" },
+    ];
 
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-md">
@@ -34,11 +36,33 @@ export default function Navbar() {
                             {link.label}
                         </a>
                     ))}
+                    <button
+                        onClick={toggleLanguage}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-card-border font-mono text-xs font-bold text-muted transition-colors hover:border-accent/50 hover:text-foreground"
+                        aria-label={
+                            locale === "en"
+                                ? "Cambiar a español"
+                                : "Switch to English"
+                        }
+                    >
+                        {locale === "en" ? "ES" : "EN"}
+                    </button>
                     <ThemeToggle />
                 </div>
 
-                {/* Mobile: theme toggle + menu button */}
+                {/* Mobile: language toggle + theme toggle + menu button */}
                 <div className="flex items-center gap-3 md:hidden">
+                    <button
+                        onClick={toggleLanguage}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-card-border font-mono text-xs font-bold text-muted transition-colors hover:border-accent/50 hover:text-foreground"
+                        aria-label={
+                            locale === "en"
+                                ? "Cambiar a español"
+                                : "Switch to English"
+                        }
+                    >
+                        {locale === "en" ? "ES" : "EN"}
+                    </button>
                     <ThemeToggle />
                     <button
                         onClick={() => setIsOpen(!isOpen)}

@@ -1,41 +1,7 @@
 "use client";
 
 import AnimateOnScroll from "./AnimateOnScroll";
-
-interface Project {
-    name: string;
-    description: string;
-    language: string;
-    url: string;
-    highlights: string[];
-}
-
-const projects: Project[] = [
-    {
-        name: "Gestor de Gastos",
-        description:
-            "Personal expense manager built with Python. Track, categorize, and analyze your spending habits with an intuitive interface.",
-        language: "Python",
-        url: "https://github.com/IamAndrew25/Gestor_gastos",
-        highlights: ["Expense Tracking", "Data Analysis", "CLI"],
-    },
-    {
-        name: "Inventario Farmacia",
-        description:
-            "Pharmacy inventory management system built with Python. Manage stock, track products, and generate reports for pharmaceutical operations.",
-        language: "Python",
-        url: "https://github.com/IamAndrew25/inventario_farmacia",
-        highlights: ["Inventory System", "PostgreSQL", "MVC"],
-    },
-    {
-        name: "MCP Integration with Copilot",
-        description:
-            "Exercise project exploring Model Context Protocol (MCP) integration with GitHub Copilot. Hands-on experience with AI-powered development tools.",
-        language: "Python",
-        url: "https://github.com/IamAndrew25/skills-integrate-mcp-with-copilot_1",
-        highlights: ["AI Tools", "MCP Protocol", "Copilot"],
-    },
-];
+import { useLanguage } from "@/i18n";
 
 function LanguageBadge({ language }: { language: string }) {
     return (
@@ -45,13 +11,25 @@ function LanguageBadge({ language }: { language: string }) {
     );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({
+    project,
+    index,
+}: {
+    project: {
+        name: string;
+        description: string;
+        language: string;
+        url: string;
+        highlights: string[];
+    };
+    index: number;
+}) {
     return (
         <a
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col rounded-xl border border-card-border bg-card-bg p-8 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5"
+            className="group flex h-full flex-col rounded-xl border border-card-border bg-card-bg p-8 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5"
         >
             <div className="mb-6 flex items-center justify-between">
                 <span className="font-mono text-xs text-muted/50">
@@ -62,6 +40,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                 >
                     <path
                         strokeLinecap="round"
@@ -95,6 +74,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export default function Projects() {
+    const { t } = useLanguage();
+
     return (
         <section id="projects" className="relative px-6 py-32">
             {/* Background decoration */}
@@ -106,21 +87,21 @@ export default function Projects() {
             <div className="relative z-10 mx-auto max-w-5xl">
                 <AnimateOnScroll>
                     <h2 className="mb-3 font-mono text-sm tracking-widest text-accent">
-                        My Work
+                        {t.projects.subtitle}
                     </h2>
                     <h3 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-                        Projects
+                        {t.projects.title}
                     </h3>
                     <p className="mb-14 max-w-xl text-muted">
-                        A selection of projects I&apos;ve built. Each one
-                        represents a different challenge and learning experience.
+                        {t.projects.description}
                     </p>
                 </AnimateOnScroll>
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {projects.map((project, index) => (
+                <div className="grid grid-rows-[auto] items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    {t.projects.items.map((project, index) => (
                         <AnimateOnScroll
-                            key={project.name}
+                            key={project.url}
                             delay={index * 150}
+                            className="h-full"
                         >
                             <ProjectCard
                                 project={project}

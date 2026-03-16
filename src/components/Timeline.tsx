@@ -1,83 +1,20 @@
 "use client";
 
 import AnimateOnScroll from "./AnimateOnScroll";
+import { useLanguage } from "@/i18n";
 
-interface TimelineItem {
-    year: string;
-    title: string;
-    institution: string;
-    description: string;
-    type: "education" | "certification" | "experience";
-    highlighted?: boolean;
-    highlights?: string[];
-}
-
-const timelineItems: TimelineItem[] = [
-    {
-        year: "In Progress",
-        title: "Software Engineering",
-        institution: "University",
-        description:
-            "Pursuing a degree in Software Engineering. " +
-            "Focused on backend development, database design, and AI integration.",
-        type: "education",
-        highlighted: true,
-        highlights: [
-            "Backend development",
-            "Database design",
-            "AI integration",
-        ],
-    },
-    {
-        year: "2024",
-        title: "Global Leadership & Entrepreneurship",
-        institution: "Aspire Institute (Harvard)",
-        description:
-            "Completed leadership training program founded by Harvard professors. " +
-            "Developed strategic thinking, project management, and entrepreneurial skills.",
-        type: "certification",
-        highlighted: true,
-        highlights: [
-            "Founded by Harvard professors",
-            "Strategic thinking & leadership",
-            "Entrepreneurial mindset",
-        ],
-    },
-    {
-        year: "2024",
-        title: "AI Agents & MCP Protocol",
-        institution: "Self-directed Learning",
-        description:
-            "Exploring AI agents, Model Context Protocol (MCP), and workflow " +
-            "automation. Building integrations with tools like GitHub Copilot.",
-        type: "experience",
-    },
-    {
-        year: "2023",
-        title: "Python Development Projects",
-        institution: "Academic & Personal",
-        description:
-            "Built multiple systems using Python, MVC architecture, PostgreSQL, " +
-            "and Pandas for data analysis. Gained hands-on experience with full-stack development.",
-        type: "experience",
-    },
-];
-
-const typeColors: Record<string, { bg: string; text: string; label: string }> = {
+const typeColors: Record<string, { bg: string; text: string }> = {
     education: {
         bg: "bg-blue-500/10",
         text: "text-blue-400",
-        label: "Education",
     },
     certification: {
         bg: "bg-emerald-500/10",
         text: "text-emerald-400",
-        label: "Certification",
     },
     experience: {
         bg: "bg-purple-500/10",
         text: "text-purple-400",
-        label: "Experience",
     },
 };
 
@@ -132,6 +69,8 @@ const highlightColors: Record<string, {
 };
 
 export default function Timeline() {
+    const { t } = useLanguage();
+
     return (
         <section id="experience" className="relative px-6 py-32">
             {/* Background decoration */}
@@ -143,14 +82,13 @@ export default function Timeline() {
             <div className="relative z-10 mx-auto max-w-4xl">
                 <AnimateOnScroll>
                     <h2 className="mb-3 font-mono text-sm tracking-widest text-accent">
-                        My Journey
+                        {t.timeline.subtitle}
                     </h2>
                     <h3 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-                        Experience & Education
+                        {t.timeline.title}
                     </h3>
                     <p className="mb-16 max-w-xl text-muted">
-                        A timeline of my academic path, certifications, and
-                        hands-on experience in software development.
+                        {t.timeline.description}
                     </p>
                 </AnimateOnScroll>
 
@@ -160,7 +98,7 @@ export default function Timeline() {
                     <div className="absolute left-0 top-0 hidden h-full w-px bg-gradient-to-b from-accent/50 via-card-border to-transparent md:left-8 md:block" />
 
                     <div className="space-y-12">
-                        {timelineItems.map((item, index) => {
+                        {t.timeline.items.map((item, index) => {
                             const colors = typeColors[item.type];
                             const isHighlighted = item.highlighted;
                             const hl = isHighlighted
@@ -168,7 +106,7 @@ export default function Timeline() {
                                 : null;
                             return (
                                 <AnimateOnScroll
-                                    key={index}
+                                    key={item.title}
                                     delay={index * 150}
                                     direction="left"
                                 >
@@ -201,10 +139,11 @@ export default function Timeline() {
                                                         className="h-3 w-3"
                                                         fill="currentColor"
                                                         viewBox="0 0 20 20"
+                                                        aria-hidden="true"
                                                     >
                                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                     </svg>
-                                                    FEATURED
+                                                    {t.timeline.featured}
                                                 </div>
                                             )}
 
@@ -215,7 +154,7 @@ export default function Timeline() {
                                                 <span
                                                     className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}
                                                 >
-                                                    {colors.label}
+                                                    {t.timeline.typeLabels[item.type]}
                                                 </span>
                                             </div>
                                             <h4
@@ -244,9 +183,9 @@ export default function Timeline() {
                                             {item.highlights && hl && (
                                                 <div className="mt-4 flex flex-wrap gap-2">
                                                     {item.highlights.map(
-                                                        (highlight, i) => (
+                                                        (highlight) => (
                                                             <span
-                                                                key={i}
+                                                                key={highlight}
                                                                 className={`rounded-md border ${hl.tagBorder} ${hl.tagBg} px-2.5 py-1 text-xs ${hl.tagText}`}
                                                             >
                                                                 {highlight}

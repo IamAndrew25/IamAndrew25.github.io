@@ -2,8 +2,11 @@
 
 import Image from "next/image";
 import TypingEffect from "./TypingEffect";
+import { useLanguage } from "@/i18n";
 
 export default function Hero() {
+    const { t } = useLanguage();
+
     return (
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
             {/* Background decorative elements (local to Hero) */}
@@ -32,40 +35,33 @@ export default function Hero() {
                 </div>
 
                 <p className="animate-fade-in-delay-1 mb-4 font-mono text-sm tracking-widest text-accent">
-                    Hello, I&apos;m
+                    {t.hero.greeting}
                 </p>
                 <h1 className="animate-fade-in-delay-2 mb-6 text-4xl font-bold leading-tight text-foreground sm:text-5xl md:text-6xl">
-                    Andres Obispo Calla
+                    {t.hero.name}
                 </h1>
                 <div className="animate-fade-in-delay-3 mb-10 h-8 text-lg text-muted sm:text-xl">
-                    <TypingEffect
-                        words={[
-                            "Software Developer",
-                            "AI Developer",
-                            "Python Developer",
-                            "Problem Solver",
-                        ]}
-                    />
+                    <TypingEffect words={t.hero.roles} />
                 </div>
                 <div className="animate-fade-in-delay-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
                     <a
                         href="#projects"
                         className="w-full rounded-lg bg-accent px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover sm:w-auto"
                     >
-                        View Projects
+                        {t.hero.viewProjects}
                     </a>
                     <a
                         href="#contact"
                         className="w-full rounded-lg border border-card-border px-8 py-3.5 text-sm font-medium text-muted transition-colors hover:border-accent hover:text-foreground sm:w-auto"
                     >
-                        Contact Me
+                        {t.hero.contactMe}
                     </a>
                 </div>
 
                 {/* Scroll indicator */}
                 <div className="animate-fade-in-delay-4 mt-16 flex justify-center">
                     <div className="flex flex-col items-center gap-2 text-muted/40">
-                        <span className="font-mono text-xs">scroll</span>
+                        <span className="font-mono text-xs">{t.hero.scroll}</span>
                         <div className="h-8 w-px animate-bounce bg-gradient-to-b from-muted/40 to-transparent" />
                     </div>
                 </div>

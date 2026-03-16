@@ -8,9 +8,11 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ParticleBackground from "@/components/ParticleBackground";
+import { LanguageProvider } from "@/i18n";
 
 export default function Home() {
     return (
+        <LanguageProvider>
         <div className="relative">
             {/* ===== Global background effects (visible on all sections) ===== */}
             <div className="pointer-events-none fixed inset-0 z-0">
@@ -130,5 +132,6 @@ export default function Home() {
                 <Footer />
             </div>
         </div>
+        </LanguageProvider>
     );
 }
