@@ -14,13 +14,19 @@ interface TimelineItem {
 
 const timelineItems: TimelineItem[] = [
     {
-        year: "2021 — Present",
+        year: "In Progress",
         title: "Software Engineering",
         institution: "University",
         description:
-            "Final-year student pursuing a degree in Software Engineering. " +
+            "Pursuing a degree in Software Engineering. " +
             "Focused on backend development, database design, and AI integration.",
         type: "education",
+        highlighted: true,
+        highlights: [
+            "Backend development",
+            "Database design",
+            "AI integration",
+        ],
     },
     {
         year: "2024",
@@ -75,6 +81,56 @@ const typeColors: Record<string, { bg: string; text: string; label: string }> = 
     },
 };
 
+const highlightColors: Record<string, {
+    dot: string;
+    dotBg: string;
+    border: string;
+    bg: string;
+    shadow: string;
+    hoverBorder: string;
+    hoverShadow: string;
+    badge: string;
+    badgeBg: string;
+    badgeBorder: string;
+    institution: string;
+    tagBorder: string;
+    tagBg: string;
+    tagText: string;
+}> = {
+    education: {
+        dot: "bg-blue-400/40",
+        dotBg: "border-blue-400 bg-blue-500/30",
+        border: "border-blue-500/30",
+        bg: "from-blue-500/5",
+        shadow: "shadow-blue-500/5",
+        hoverBorder: "hover:border-blue-400/50",
+        hoverShadow: "hover:shadow-blue-500/10",
+        badge: "text-blue-400",
+        badgeBg: "bg-blue-500/10",
+        badgeBorder: "border-blue-500/20",
+        institution: "text-blue-400/80",
+        tagBorder: "border-blue-500/15",
+        tagBg: "bg-blue-500/5",
+        tagText: "text-blue-400/80",
+    },
+    certification: {
+        dot: "bg-emerald-400/40",
+        dotBg: "border-emerald-400 bg-emerald-500/30",
+        border: "border-emerald-500/30",
+        bg: "from-emerald-500/5",
+        shadow: "shadow-emerald-500/5",
+        hoverBorder: "hover:border-emerald-400/50",
+        hoverShadow: "hover:shadow-emerald-500/10",
+        badge: "text-emerald-400",
+        badgeBg: "bg-emerald-500/10",
+        badgeBorder: "border-emerald-500/20",
+        institution: "text-emerald-400/80",
+        tagBorder: "border-emerald-500/15",
+        tagBg: "bg-emerald-500/5",
+        tagText: "text-emerald-400/80",
+    },
+};
+
 export default function Timeline() {
     return (
         <section id="experience" className="relative px-6 py-32">
@@ -107,6 +163,9 @@ export default function Timeline() {
                         {timelineItems.map((item, index) => {
                             const colors = typeColors[item.type];
                             const isHighlighted = item.highlighted;
+                            const hl = isHighlighted
+                                ? highlightColors[item.type] ?? highlightColors.certification
+                                : null;
                             return (
                                 <AnimateOnScroll
                                     key={index}
@@ -117,10 +176,10 @@ export default function Timeline() {
                                         {/* Dot on timeline */}
                                         <div className="absolute left-0 top-2 hidden md:block">
                                             <div className="flex h-[17px] w-[17px] items-center justify-center">
-                                                {isHighlighted ? (
+                                                {isHighlighted && hl ? (
                                                     <div className="relative">
-                                                        <div className="absolute -inset-1 animate-ping rounded-full bg-emerald-400/40" />
-                                                        <div className="relative h-3.5 w-3.5 rounded-full border-2 border-emerald-400 bg-emerald-500/30" />
+                                                        <div className={`absolute -inset-1 animate-ping rounded-full ${hl.dot}`} />
+                                                        <div className={`relative h-3.5 w-3.5 rounded-full border-2 ${hl.dotBg}`} />
                                                     </div>
                                                 ) : (
                                                     <div className="h-3 w-3 rounded-full border-2 border-accent bg-background transition-all group-hover:scale-125 group-hover:bg-accent/20" />
@@ -130,14 +189,14 @@ export default function Timeline() {
 
                                         <div
                                             className={`rounded-xl border p-6 transition-all sm:p-8 ${
-                                                isHighlighted
-                                                    ? "border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 via-card-bg to-card-bg shadow-lg shadow-emerald-500/5 hover:border-emerald-400/50 hover:shadow-emerald-500/10"
+                                                isHighlighted && hl
+                                                    ? `${hl.border} bg-gradient-to-br ${hl.bg} via-card-bg to-card-bg shadow-lg ${hl.shadow} ${hl.hoverBorder} ${hl.hoverShadow}`
                                                     : "border-card-border bg-card-bg hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
                                             }`}
                                         >
                                             {/* Featured label for highlighted items */}
-                                            {isHighlighted && (
-                                                <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold tracking-wide text-emerald-400">
+                                            {isHighlighted && hl && (
+                                                <div className={`mb-4 inline-flex items-center gap-1.5 rounded-full border ${hl.badgeBorder} ${hl.badgeBg} px-3 py-1 text-xs font-semibold tracking-wide ${hl.badge}`}>
                                                     <svg
                                                         className="h-3 w-3"
                                                         fill="currentColor"
@@ -170,8 +229,8 @@ export default function Timeline() {
                                             </h4>
                                             <p
                                                 className={`mb-3 text-sm font-medium ${
-                                                    isHighlighted
-                                                        ? "text-emerald-400/80"
+                                                    isHighlighted && hl
+                                                        ? hl.institution
                                                         : "text-accent/80"
                                                 }`}
                                             >
@@ -182,13 +241,13 @@ export default function Timeline() {
                                             </p>
 
                                             {/* Highlight tags for featured items */}
-                                            {item.highlights && (
+                                            {item.highlights && hl && (
                                                 <div className="mt-4 flex flex-wrap gap-2">
                                                     {item.highlights.map(
                                                         (highlight, i) => (
                                                             <span
                                                                 key={i}
-                                                                className="rounded-md border border-emerald-500/15 bg-emerald-500/5 px-2.5 py-1 text-xs text-emerald-400/80"
+                                                                className={`rounded-md border ${hl.tagBorder} ${hl.tagBg} px-2.5 py-1 text-xs ${hl.tagText}`}
                                                             >
                                                                 {highlight}
                                                             </span>

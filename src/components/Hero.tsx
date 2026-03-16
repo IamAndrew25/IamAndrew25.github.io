@@ -31,17 +31,6 @@ export default function Hero() {
                     </div>
                 </div>
 
-                {/* Open to Work badge */}
-                <div className="animate-fade-in-delay-1 mb-5 flex justify-center">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-xs font-medium text-emerald-400">
-                        <span className="relative flex h-2 w-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                        </span>
-                        Open to Work
-                    </span>
-                </div>
-
                 <p className="animate-fade-in-delay-1 mb-4 font-mono text-sm tracking-widest text-accent">
                     Hello, I&apos;m
                 </p>
